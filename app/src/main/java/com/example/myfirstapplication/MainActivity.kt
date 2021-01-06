@@ -28,4 +28,12 @@ class MainActivity : AppCompatActivity() {
         fr.add(R.id.fl_fragment, HomeFragment())
         fr.commit()
     }
+
+    override fun onPause() {
+        super.onPause()
+
+        var fr = supportFragmentManager.beginTransaction()
+        fr.replace(R.id.fl_fragment, HomeFragment())
+        fr.commit()
+    }
 }
