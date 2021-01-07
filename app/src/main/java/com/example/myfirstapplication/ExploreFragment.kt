@@ -1,5 +1,6 @@
 package com.example.myfirstapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myfirstapplication.adapter.MovieAdapter
+import com.example.myfirstapplication.listener.OnItemClickListener
 import com.example.myfirstapplication.model.Movie
 import kotlinx.android.synthetic.main.fragment_explore.*
 
@@ -25,6 +27,7 @@ class ExploreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        action()
     }
 
     fun initView() {
@@ -43,4 +46,14 @@ class ExploreFragment : Fragment() {
         movieAdapter.setMovie(addMoviewList)
     }
 
+    fun action() {
+        movieAdapter.setOnClickItemListener(object : OnItemClickListener {
+            override fun onItemClick(item: View, position: Int) {
+                var i = Intent(context, MovieDetailActivity::class.java)
+                i.putExtra("title", movieAdapter.getMovie().get(position).getTitle())
+                i.putExtra("description", movieAdapter.getMovie().get(position).getDescription())
+                startActivity(i)
+            }
+        })
+    }
 }
