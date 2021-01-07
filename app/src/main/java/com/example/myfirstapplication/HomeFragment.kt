@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
@@ -43,7 +44,7 @@ class HomeFragment : Fragment() {
         }
 
         btn_toast.setOnClickListener {
-
+            Toast.makeText(activity, "Hello!", Toast.LENGTH_SHORT).show()
         }
     }
 }
