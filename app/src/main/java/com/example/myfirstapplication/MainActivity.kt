@@ -14,6 +14,11 @@ class MainActivity : AppCompatActivity() {
         Log.i("Main Activity", "onCreate")
 
         bottom_navigation.setOnNavigationItemSelectedListener(onBottomNavListener)
+        bottom_navigation.getOrCreateBadge(R.id.item_explore).apply {
+            number = 20
+            isVisible = true
+            backgroundColor = resources.getColor(R.color.red)
+        }
         var fr = supportFragmentManager.beginTransaction()
         fr.add(R.id.fl_fragment, HomeFragment())
         fr.commit()
@@ -29,6 +34,10 @@ class MainActivity : AppCompatActivity() {
 
             R.id.item_explore -> {
                 selectedFr = ExploreFragment()
+                bottom_navigation.getOrCreateBadge(R.id.item_explore).apply {
+                    number = 0
+                    isVisible = false
+                }
             }
 
             R.id.item_subscriptions -> {
