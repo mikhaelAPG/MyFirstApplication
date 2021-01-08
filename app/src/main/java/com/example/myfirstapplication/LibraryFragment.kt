@@ -7,8 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.myfirstapplication.model.Comment
+import com.example.myfirstapplication.model.user.UserRequest
+import com.example.myfirstapplication.model.user.UserResponse
 import com.example.myfirstapplication.service.CommentAPI
+import com.example.myfirstapplication.service.UserAPI
 import com.example.myfirstapplication.util.Retro
+import kotlinx.android.synthetic.main.fragment_library.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,10 +29,17 @@ class LibraryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         getCommentAPI()
+        initAction()
+    }
+
+    fun initAction() {
+        btn_created.setOnClickListener {
+            postUserAPI()
+        }
     }
 
     fun getCommentAPI() {
-        val retro = Retro().getRetroClientInstance().create(CommentAPI::class.java)
+        val retro = Retro().getRetroClientInstance("https://jsonplaceholder.typicode.com/").create(CommentAPI::class.java)
         retro.getComment().enqueue(object : Callback<List<Comment>>{
             override fun onResponse(call: Call<List<Comment>>, response: Response<List<Comment>>) {
                 val comment = response.body()
@@ -44,4 +55,26 @@ class LibraryFragment : Fragment() {
         })
     }
 
+    fun postUserAPI() {
+        val userReq = UserRequest()
+        userReq.name = et_name.text.toString()
+        userReq.job = et_job.text.toString()
+
+
+        val retro = Retro().getRetroClientInstance("https://reqres.in/").create(UserAPI::class.java)
+        retro.createUser(userReq).enqueue(object : Callback<UserResponse>{
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                val user = response.body()
+                tv_result_name.text = "Name : " +  user!!.name.toString()
+                tv_result_job.text = "Job : " + user!!.job.toString()
+                tv_result_id.text = "Id : " + user!!.id.toString()
+                tv_result_created_at.text = "Created At : " + user!!.createdAt.toString()
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Log.e("Failed", t.message.toString())
+            }
+
+        })
+    }
 }

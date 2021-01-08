@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LibraryFragment">
+    tools:context=".LibraryFragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Library Fragment" />
+        android:layout_height="wrap_content"
+        android:text="Nama"/>
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Job"/>
+
+    <EditText
+        android:id="@+id/et_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btn_created"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"/>
+
+    <TextView
+        android:id="@+id/tv_result_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"/>
+
+    <TextView
+        android:id="@+id/tv_result_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"/>
+
+    <TextView
+        android:id="@+id/tv_result_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"/>
+
+    <TextView
+        android:id="@+id/tv_result_created_at"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Result:"/>
+</LinearLayout>
