@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myfirstapplication.adapter.BlogAdapter
 import com.example.myfirstapplication.model.Placeholder
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_subscriptions.*
@@ -13,6 +15,9 @@ import okhttp3.*
 import java.io.IOException
 
 class SubscriptionsFragment : Fragment() {
+
+    lateinit var blogAdapter: BlogAdapter
+    var lm = LinearLayoutManager(activity)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -23,7 +28,14 @@ class SubscriptionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        initView()
         getData()
+    }
+
+    fun initView() {
+        rv_blog.layoutManager = lm
+        blogAdapter = BlogAdapter(activity!!)
+        rv_blog.adapter = blogAdapter
     }
 
     fun getData() {
@@ -40,10 +52,11 @@ class SubscriptionsFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body?.string()
                 var gson = GsonBuilder().create()
-                var result = gson.fromJson(body, Array<Placeholder>::class.java)
+                var result = gson.fromJson(body, Array<Placeholder>::class.java).toList()
 
                 activity?.runOnUiThread {
                     tv_subscription.text = result?.get(0)?.body.toString()
+                    blogAdapter.setBlog(result!!)
                 }
 
             }
