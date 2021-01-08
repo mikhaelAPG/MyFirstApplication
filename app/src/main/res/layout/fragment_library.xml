@@ -9,6 +9,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="ID"/>
+
+    <EditText
+        android:id="@+id/et_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Nama"/>
 
     <EditText
@@ -31,6 +41,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create"/>
+
+    <Button
+        android:id="@+id/btn_updated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update"/>
 
     <TextView
         android:layout_width="match_parent"

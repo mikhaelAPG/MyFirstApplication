@@ -36,6 +36,10 @@ class LibraryFragment : Fragment() {
         btn_created.setOnClickListener {
             postUserAPI()
         }
+
+        btn_updated.setOnClickListener {
+            editUserAPI()
+        }
     }
 
     fun getCommentAPI() {
@@ -69,6 +73,28 @@ class LibraryFragment : Fragment() {
                 tv_result_job.text = "Job : " + user!!.job.toString()
                 tv_result_id.text = "Id : " + user!!.id.toString()
                 tv_result_created_at.text = "Created At : " + user!!.createdAt.toString()
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Log.e("Failed", t.message.toString())
+            }
+
+        })
+    }
+
+    fun editUserAPI() {
+        val userReq = UserRequest()
+        userReq.name = et_name.text.toString()
+        userReq.job = et_job.text.toString()
+
+
+        val retro = Retro().getRetroClientInstance("https://reqres.in/").create(UserAPI::class.java)
+        retro.ediUser(et_id.text.toString().toInt(), userReq).enqueue(object : Callback<UserResponse>{
+            override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                val user = response.body()
+                tv_result_name.text = "Name : " +  user!!.name.toString()
+                tv_result_job.text = "Job : " + user!!.job.toString()
+                tv_result_created_at.text = "Updated At : " + user!!.updatedAt.toString()
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {

@@ -21,4 +21,8 @@ class UserResponse {
     @Expose
     var createdAt: String? = null
 
+    @SerializedName("updatedAt")
+    @Expose
+    var updatedAt: String? = null
+
 }
