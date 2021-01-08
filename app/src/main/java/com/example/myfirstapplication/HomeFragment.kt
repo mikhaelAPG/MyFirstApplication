@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myfirstapplication.adapter.UserAdapter
 import com.example.myfirstapplication.model.realm.User
 import io.realm.Realm
 import io.realm.exceptions.RealmException
@@ -17,6 +19,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment() {
 
+    lateinit var userAdapter: UserAdapter
+    val lm = LinearLayoutManager(activity)
     lateinit var realm: Realm
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -32,7 +36,12 @@ class HomeFragment : Fragment() {
     }
 
     fun initView() {
+        rv_user.layoutManager = lm
+        userAdapter = UserAdapter(activity!!)
+        rv_user.adapter = userAdapter
+
         realm = Realm.getDefaultInstance()
+        getAllUser()
     }
 
     fun action() {
@@ -60,18 +69,38 @@ class HomeFragment : Fragment() {
 
         btn_add.setOnClickListener {
             realm.beginTransaction()
+            var count = 0
+
+            realm.where(User::class.java).findAll().let {
+                for (i in it) {
+                    count++
+                }
+            }
+
             try {
                 var user = realm.createObject(User::class.java)
+                user.setId(count+1)
                 user.setNama(et_nama.text.toString())
                 user.setEmail(et_email.text.toString())
 
-                tv_result.text = user.getNama() + " " + user.getEmail()
+                realm.where(User::class.java).findAll().let {
+                    userAdapter.setUser(it)
+                }
+//                tv_result.text = user.getId().toString() + " " + user.getNama() + " " + user.getEmail()
+                et_nama.setText("")
+                et_email.setText("")
 
                 realm.commitTransaction()
 
             } catch (e: RealmException) {
                 Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    fun getAllUser() {
+        realm.where(User::class.java).findAll().let {
+            userAdapter.setUser(it)
         }
     }
 }
