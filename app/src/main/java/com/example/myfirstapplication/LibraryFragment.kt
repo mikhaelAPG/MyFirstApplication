@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.myfirstapplication.model.Comment
 import com.example.myfirstapplication.model.user.UserRequest
 import com.example.myfirstapplication.model.user.UserResponse
@@ -39,6 +40,10 @@ class LibraryFragment : Fragment() {
 
         btn_updated.setOnClickListener {
             editUserAPI()
+        }
+
+        btn_deleted.setOnClickListener {
+            deleteUserAPI()
         }
     }
 
@@ -98,6 +103,22 @@ class LibraryFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                Log.e("Failed", t.message.toString())
+            }
+
+        })
+    }
+
+    fun deleteUserAPI() {
+        val retro = Retro().getRetroClientInstance("https://reqres.in/").create(UserAPI::class.java)
+        retro.deleteUser(et_id.text.toString().toInt()).enqueue(object : Callback<Int>{
+            override fun onResponse(call: Call<Int>, response: Response<Int>) {
+                val res = response.code()
+
+                Toast.makeText(context, "Data Deleted with response code " + res, Toast.LENGTH_LONG).show()
+            }
+
+            override fun onFailure(call: Call<Int>, t: Throwable) {
                 Log.e("Failed", t.message.toString())
             }
 
