@@ -17,7 +17,7 @@ open class User: RealmObject() {
         return id
     }
 
-    fun setNama(name:String) {
+    fun setNama(nama:String) {
         this.nama = nama
     }
 

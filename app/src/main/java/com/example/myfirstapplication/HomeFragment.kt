@@ -80,14 +80,14 @@ class HomeFragment : Fragment() {
             try {
                 var user = realm.createObject(User::class.java)
                 user.setId(count+1)
-                user.setNama(et_nama.text.toString())
+                user.setNama(et_name.text.toString())
                 user.setEmail(et_email.text.toString())
 
                 realm.where(User::class.java).findAll().let {
                     userAdapter.setUser(it)
                 }
 //                tv_result.text = user.getId().toString() + " " + user.getNama() + " " + user.getEmail()
-                et_nama.setText("")
+                et_name.setText("")
                 et_email.setText("")
 
                 realm.commitTransaction()
@@ -95,6 +95,24 @@ class HomeFragment : Fragment() {
             } catch (e: RealmException) {
                 Toast.makeText(activity, e.message, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        btn_update.setOnClickListener {
+            realm.beginTransaction()
+            realm.where(User::class.java).equalTo("id", et_id.text.toString().toInt()).findFirst().let {
+                it!!.setNama(et_name.text.toString())
+                it!!.setEmail(et_email.text.toString())
+            }
+            realm.commitTransaction()
+        }
+
+        btn_delete.setOnClickListener {
+            realm.beginTransaction()
+            realm.where(User::class.java).equalTo("id", et_id.text.toString().toInt()).findFirst().let {
+                it!!.deleteFromRealm()
+                getAllUser()
+            }
+            realm.commitTransaction()
         }
     }
 
